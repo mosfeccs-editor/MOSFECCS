@@ -1,4 +1,4 @@
-##MOSFECCS Structural Formula Editor
+<h2>MOSFECCS Structural Formula Editor</h2>
 
 <p><strong>MO</strong>lecular <strong>S</strong>tructural <strong>F</strong>ormula <strong>E</strong>ditor <strong>C</strong>alculatig <strong>C</strong>anonical <strong>S</strong>MILES</p>
 
