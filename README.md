@@ -4,7 +4,7 @@
 
 ><img src="mosfeccs.png" > 
 
-###Purpose and Current Use of MOSFECCS
+<h3>Purpose and Current Use of MOSFECCS</h3>
 
 ><a href="LICENSE.md"><strong>LICENSE:</strong></a> MOSFECCS is licensed under the GNU Public License 3. <em>See</em> LICENSE.md
 
@@ -24,22 +24,22 @@
   <p><em>iOS 14.4.2:</em> Firefox, Chrome, Safari, ETH-Moodle.app</p>
   <p><em>Android:</em> Firefox, Chrome, Samsung Internet, ETH-Moodle.app</p>
 
-###Content of the Repository and Installation
+<h3>Content of the Repository and Installation</h3>
 
-####For people who want to install and use MOSFECCS
+<h4>For people who want to install and use MOSFECCS</h4>
 >Files for installation of MOSFECCS in a Moodle course (main script compiled by Google closure compiler) MOSFECCS\_v6\_install\_in\_Moodle.zip.<br />Consult the file "Installing MOSFECCS in Moodle.pdf" for detailed instructions.
 
 >The file "Example\_Moodle\_Quizz\_with\_MOSFECCS.xml" can be imported into a Moodle course and contains one quiz with 10 questions that illustrate the use of MOSFECCS and MOSFECCS-SMILES in different Moodle question types.
 
 >MOSFECCS can also be installed locally on a computer: download "MOSFECCS\_v6\_local\_install\_on computer.zip" to your computer, unzip and open the file MOSFECCS\_v6\_210506cc.html with your browser.
 
-####Documentation
+<h4>Documentation</h4>
 
 >MOSFECCS\_MANUAL.pdf (alternatively, use the HELP button in MOSFECCS)
 
 >MOSFECCS-SMILES\_technical\_Manual: describes the conventions and procedures used by MOSFECCS for calculating canonical SMILES. 
  
-####For contributors and developers
+<h4>For contributors and developers</h4>
 >This section contains the source code of MOSFECCS and additional tools for development
  and testing.
  
@@ -48,7 +48,7 @@
 >MOSETEST: mostest.js runs under nodeJS and accepts a file with SMILES-codes (one per line) as input. The SMILES-generator and SMILES-parser of mostest.js are identical to those of MOSFECSS since mostest.js is made by makeversion.pl from MOSFECCS. Each SMILES in the input file is converted into a structure (svg-graphic) by the parser and then the SMILES-code is calculated for the structure. mostest.js compares the input and output SMILES-codes and reports if they are not identical or if an error occurs. <br />
 >AllTestMols.txt is a testfile with ca 1300 molecules (SMILES-codes) that can be used as input for mostest.js
 
-###Contacts:
+<h4>Contacts:</h4>
 >For BUG reports, suggestions for improvements and other questions related to coding: <strong>jaun@ethz.ch</strong> 
 
 >Questions related to the use of MOSFECCS within Moodle quizzes: <strong>          thilgen@org.chem.ethz.ch</strong>
