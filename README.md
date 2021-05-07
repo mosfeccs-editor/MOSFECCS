@@ -6,10 +6,10 @@
 
 <h3>Purpose and Current Use of MOSFECCS</h3>
 
-><a href="LICENSE.md"><strong>LICENSE:</strong></a> MOSFECCS is licensed under the GNU Public License 3. <em>See</em> LICENSE.md
+<a href="LICENSE.md"><strong>LICENSE:</strong></a> MOSFECCS is licensed under the GNU Public License 3. <em>See</em> LICENSE.md
 
 
-><p>MOSFFECS is a HTML-Javascript application that provides an editor for molecular structural formulae in a window. It is typically installed inside a <a href="https://moodle.org/">Moodle course</a> but can also be called by a browser from a local installation on a desktop/laptop.</p>
+<p>MOSFFECS is a HTML-Javascript application that provides an editor for molecular structural formulae in a window. It is typically installed inside a <a href="https://moodle.org/">Moodle course</a> but can also be called by a browser from a local installation on a desktop/laptop.</p>
   <p>With MOSFECCS, users can draw one or several formulae interactively with the mouse or with a stylus (on touch devices). On demand, the program converts the molecular structure into an alphanumeric code (mosfeccs-SMILES) that is bi-unique for the structure and allows to enter the structure(s) into the answer fields of on-line quizzes in on-line learning environments like Moodle.</p>
   <p>MOSFECCS also contains a parser that converts SMILES codes into structural formulae ("put SMILES" button). </p>
   <p>mosfeccs-SMILES are canonical (bi-unique) and mostly, but not always identical with Daylight-SMILES&trade;. For details <em>see</em> MOSFECCS-SMILES technical manual.<br /> SMILES-extensions to specify lone-pairs, curved arrows, and reaction arrows are specific for MOSFECCS.</p> 
@@ -29,9 +29,9 @@
 <h4>For people who want to install and use MOSFECCS</h4>
 <p>Files for installation of MOSFECCS in a Moodle course (main script compiled by Google closure compiler) MOSFECCS_v6_install_in_Moodle.zip.<br />Consult the file "Installing MOSFECCS in Moodle.pdf" for detailed instructions.
 
->The file "Example\_Moodle\_Quizz\_with\_MOSFECCS.xml" can be imported into a Moodle course and contains one quiz with 10 questions that illustrate the use of MOSFECCS and MOSFECCS-SMILES in different Moodle question types.
+The file "Example\_Moodle\_Quizz\_with\_MOSFECCS.xml" can be imported into a Moodle course and contains one quiz with 10 questions that illustrate the use of MOSFECCS and MOSFECCS-SMILES in different Moodle question types.
 
->MOSFECCS can also be installed locally on a computer: download "MOSFECCS_v6_local_install_on computer.zip" to your computer, unzip and open the file MOSFECCS_v6_210506cc.html with your browser.
+MOSFECCS can also be installed locally on a computer: download "MOSFECCS_v6_local_install_on computer.zip" to your computer, unzip and open the file MOSFECCS_v6_210506cc.html with your browser.
 
 <h4>Documentation</h4>
 
