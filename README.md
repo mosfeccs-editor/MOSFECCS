@@ -29,7 +29,7 @@
 <h4>Install and use MOSFECCS</h4>
 <p>Files for installation of MOSFECCS in a Moodle course (main script compiled by Google closure compiler) MOSFECCS_v6_install_in_Moodle.zip.<br />Consult the file "Installing MOSFECCS in Moodle.pdf" for detailed instructions.
 
-The file "Example\_Moodle\_Quizz\_with\_MOSFECCS.xml" can be imported into a Moodle course and contains one quiz with 10 questions that illustrate the use of MOSFECCS and MOSFECCS-SMILES in different Moodle question types.
+The file "Example_Moodle_Quizz_with_MOSFECCS.xml" can be imported into a Moodle course and contains one quiz with 10 questions that illustrate the use of MOSFECCS and MOSFECCS-SMILES in different Moodle question types.
 
 MOSFECCS can also be installed locally on a computer: download "MOSFECCS_v6_local_install_on computer.zip" to your computer, unzip and open the file MOSFECCS_v6_210506cc.html with your browser.
 
