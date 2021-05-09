@@ -26,20 +26,20 @@
 
 <h2>Content of the Repository and Installation</h2>
 
-<h3>Install and use MOSFECCS</h3>
+<h3>A. Install and use MOSFECCS</h3>
 <p>Files for installation of MOSFECCS in a Moodle course (main script compiled by Google closure compiler) MOSFECCS_v6_install_in_Moodle.zip.<br />Consult the file "Installing MOSFECCS in Moodle.pdf" for detailed instructions.
 
 The file "Example_Moodle_Quizz_with_MOSFECCS.xml" can be imported into a Moodle course and contains one quiz with 10 questions that illustrate the use of MOSFECCS and MOSFECCS-SMILES in different Moodle question types.
 
 MOSFECCS can also be installed locally on a computer: download "MOSFECCS_v6_local_install_on computer.zip" to your computer, unzip and open the file MOSFECCS_v6_210506cc.html with your browser.
 
-<h3>Documentation</h3>
+<h3>B. Documentation</h3>
 
 MOSFECCS_MANUAL.pdf (alternatively, use the HELP button in MOSFECCS)
 
 MOSFECCS-SMILES_technical_Manual: describes the conventions and procedures used by MOSFECCS for calculating canonical SMILES. 
  
-<h3>For contributors and developers</h3>
+<h3>C. For contributors and developers</h3>
 <p>This section contains the source code of MOSFECCS and additional tools for development
  and testing.</p>
  
