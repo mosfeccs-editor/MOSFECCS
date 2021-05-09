@@ -1,0 +1,369 @@
+//START mv5 PMS
+  // SMILES CODE TO STRUCTURE (SMILES PARSING)
+      function parse_m_SMILES(msmico) {
+
+        // local use
+        let gbr = new Rect(0,0,0,0);
+        let i=0;
+        let jj=0;
+        let j=0;
+        let sel = 0;
+        let nexH = 0; // counter for explicit H //BF191028.3
+        let eshift = 0;
+        let onlyH=false;
+        const pcrit = 2.0*crit;
+        let tree_h_max = 0;
+        let tree_rects = [];
+        let xratio = 1;
+        let yratio = 1;
+        let smgr=0;
+        let emgr=0;
+      
+        // variables for SMILES parsing SECTION
+        const atInRh={}; // dict for ring atoms. key is the atom index as string,value an array with ring numbers
+        let cchains = [];
+        let emfuPrings = [];
+        const tree_ends = [];
+        const heavy_ends = [];
+        let matched = []; 
+        let m_smico = [];
+        let mchain = -1;
+        let natofs=0;
+        const ncreH = []; // number of created explicit H per molecule  //BF191028.3
+        const etbl = {}; // translation map for atom indices  heavy -> incl expl. H  //BF191028.3
+        let nmoloffs=0; // offset for molecules to be added by parsing rxnSmiles
+        let parserr = ''; //BF191122.1        
+        let parwix = -1;
+        let parwsmiles = '';
+        const path_starts = [];
+        const path_ends = [];
+        let pats = []; // array of the atom SMILES. Index is atom index in SMILES
+        let pb = [new Bond(0,0,0)]; // index 0 contains a dummy bond
+        const pbp = [[0]]; // 2D-array of bonding partners
+        const pic = []; // array of incoming atom indices
+        let pIsolatedRings = [];
+        let ploterr='';
+        let plpix = -1;
+        let plpsmiles = '';
+        let pmolgrp = []; // array of Molgrp{} objects
+        const prfs = []; // array of the prefixes of atom smiles
+        const psfs = []; // array of the suffixes of atom smiles
+        let pRingFusions = [];
+        let prings = [[0]]; // array storing the atoms in ring, index is ring closure digit as number
+        let prxnarro = []; //the array of Rxna{} objects from parsing rxnsmiles
+        let prxnix = -1;
+        let prxnsmiles = ''; // rxn arrow smiles to parse
+        let pscAtoms = []; // array with the atoms that are designated as stereogenic (@ or @@) in the SMILES smico
+        let pSpiroRings = [];
+        const rclh = {}; // dict storing ringclosure objects. key is the ring closure digit as string
+        const pezh = {}; // dict storing EZ double bond objects. key is 'a-b' with a and b the 2 atoms of the double bond
+        let rxnaroffs=0; // offset for rxn arrows to be added by parsing rxnSmiles
+        const rxn_paths = [];
+        let rtchains = [];
+        let tchains = [];
+
+
+
+        m_smico= [];
+      
+        if (msmico === '') { return; }
+        
+        saveState();
+        
+        // extract the arrow and lone pairs parts (if present) and check for unbalanced delimiters
+        matched = msmico.match(/!(.+)!/);
+        if (matched !== null) {
+          plpsmiles = matched[1];
+          plpix = matched.index;
+        } else if (msmico.includes('!')) { //BF191123.1
+          parserr='unmatched ! (lone pairs section)'; //BF191123.1
+        } 
+        matched = [];
+        matched = msmico.match(/¿(.+)¿/);
+        if (matched !== null) {
+          parwsmiles = matched[1];
+          parwix = matched.index;
+        } else if (msmico.includes('¿')) { //BF191123.1
+          parserr='unmatched ¿ (curved arrows section)'; //BF191123.1
+        }
+        matched = [];        
+        matched = msmico.match(/§(.+)§/);
+        if (matched !== null) {
+          prxnsmiles = matched[1];
+          prxnix = matched.index;
+        } else if (msmico.includes('§')) { //BF191123.1
+          parserr='unmatched § (reaction arrows section)'; //BF191123.1
+        }
+        if (parserr !== '') { //BF191123.1
+          alert("Parse-SMILES Error:\n"+parserr+"\nin SMILES: "+msmico); //BF191123.1
+          return; //BF191123.1
+        } //BF191123.1
+        
+        if (parwix > -1) { // strip arrow, lone pair, and rxn arrow sections off the end of msmico
+          msmico = msmico.substring(0,parwix);
+        } else if (plpix > -1) {
+          msmico = msmico.substring(0,plpix);
+        } else if (prxnix > -1) {
+          msmico = msmico.substring(0,prxnix);
+        }        
+
+        // check for illegal dot
+        if ((/^\./.test(msmico)) || (/\.$/.test(msmico)) || (/\.\./.test(msmico))) { //BF201206
+          parserr='illegal dot at start and/or end or multiple dots'; //BF201206
+        } //BF201206
+        if (parserr !== '') { //BF201206
+          alert("Parse-SMILES Error:\n"+parserr+"\nin SMILES: "+msmico); //BF201206
+          return; //BF201206
+        } //BF201206
+
+        m_smico = msmico.split('.');
+        tree_rects=[];
+        if (m.length > 1) { //ADD mode: pre-existing molecules
+          natofs = m.length-1;
+          nmol=getAll_t_Trees();
+          for (i=1;i<=nmol;i++) { // selector 't' is base 1
+            gbr=getboundrect(m,i,'t');
+            tree_rects.push(gbr);
+            tree_h_max = Math.max(tree_h_max,gbr.h);
+          }
+          nmoloffs=nmol; // offset for 1st molecule from parsing
+          if (rxnarro.length > 0) { // pre-existing rxn arrows
+            // determine the preexisting molgroups
+            rxnaroffs=0;
+            pmolgrp = [];
+            get_molgrps(rxnarro); // pmolgrp[] will now contain the pre-existing molgroups (without mol that are not associated to rxn)
+            rxnaroffs=rxnarro.length; // offset for rxnarray
+          } else {
+            rxnaroffs=0;
+          }
+        } else { // REPLACE MODE no pre-existing molecules
+          nmoloffs=0;
+          rxnaroffs=0;
+        }
+        if (prxnsmiles !== '') { // rxn to parse
+          parseRxnArrows(prxnsmiles,nmoloffs); // the new rxn arrows will be in prxnarro[] with molnumbers in .stn and .etn incremented by nmoloffs.
+        }
+        
+        // parse the individual SMILES in m_smico[]
+        i=0;
+        sel=1+nmoloffs; // set selector to next free mol_nr
+        while(i < m_smico.length) {
+          //check individual SMILES for unbalanced parentesis      
+          if (m_smico[i] === '') { break; }
+          if (checkPB(m_smico[i])===1) { //BF191122.1
+            parserr='unbalanced \(\)'; //BF191122.1
+          } else if (checkPB(m_smico[i])=== -1) { //BF191122.1
+            parserr='unbalanced \[\]'; //BF191122.1
+          } //BF191122.1
+          if (parserr !== '') { //BF191122.1
+            alert("Parse-SMILES Error:\n"+parserr+"\nin SMILES: "+m_smico[i]); //BF191122.1
+            kc = 0;
+            document.getElementById('shift').className = "shift";
+            document.getElementById('alt').className = "alt";
+            return; //BF191122.1
+          } //BF191122.1
+
+          parseSMILES(m_smico[i]);
+          
+          if (ploterr != '') { //BF200103.2
+            if (parserr==='') {
+              parserr = ploterr;
+            } else {
+              parserr += '\n'+ploterr;
+            }
+          }
+          
+          if (parserr !== '') { //BF191122.1
+            alert("Parse-SMILES Error:\n"+parserr+"\nin SMILES: '"+m_smico[i]+"'"); //BF191122.1
+            recoverState();
+            return; //BF191122.1
+          } //BF191122.1
+          
+          // label substructure
+          for (jj=1;jj<m_s.length;jj++) {
+            m_s[jj].s = sel;
+            m_s[jj].t = sel;
+          }
+          for (jj=1;jj<b_s.length;jj++) {
+            b_s[jj].s = sel;
+          }
+          // determine the number of explicit H
+          nexH = 0; //BF191028.3
+          onlyH=false;
+          if (m_s[1].an !== 1) { // only for m_s with heavy atoms at the start //BF191101.2
+            // excludes trees consisting of only H,H+,H- or H2
+            for (jj=1;jj<m_s.length;jj++) { //BF191028.3
+              if (m_s[jj].an === 1) { //BF191028.3
+                nexH++; //BF191028.3
+              } //BF191028.3
+            } //BF191028.3
+          } else {
+            onlyH=true;
+            jj=1;
+            while (jj < m_s.length) {
+              if (m_s[jj].an !== 1) {
+                onlyH=false;
+              }
+              jj++;
+            }
+          }
+          ncreH.push(nexH); //BF191028.3
+
+          // ADD TREE to m[] and b[]
+          addTree(m_s,b_s,m,b,sel,0,0); // addTree selects based on mar[].s
+          tree_ends.push(m.length-1); // tree_ends is base 0
+
+          // determine the last non expl. H atom
+          if (!onlyH) {
+            jj=m.length-1;
+            while ((jj > 0) && (m[jj].an === 1)) { //BF191028.3
+              jj--;
+            } //BF191028.3
+            heavy_ends.push(jj);
+          } else {
+            heavy_ends.push(m.length-1);
+          }
+
+          // center the tree on canvas
+          gbr = getboundrect(m,sel,'s');
+          tree_h_max = Math.max(tree_h_max,gbr.h);
+          shiftTree(m,(arect.l+arect.w/2)-(gbr.l + gbr.w/2),(arect.t+arect.h/2)-(gbr.t + gbr.h/2),sel);
+          gbr.l=0;
+          gbr.t=0;
+          tree_rects.push(gbr);
+          sel++;
+          i++;
+        } // end while over all molecules to be parsed
+                
+        nmol = sel-1; // the new total number of molecules
+        
+        //construct translation table for heavy atom indices to new index after creation of explicit H
+        eshift = 0; //BF191028.3
+        i=0; //BF191028.3
+        j=1; //BF191028.3
+        jj=1;
+        while (i < nmol) { //loop over all molecules  //BF191028.3
+          while (jj <= heavy_ends[i]) { //BF191028.3
+            etbl[j] = j + eshift;  //BF191028.3
+            j++;  //BF191028.3
+            jj++;
+          } //BF191028.3
+          eshift += ncreH[i]; //BF191028.3
+          if (i < nmol-1) {
+            jj = tree_ends[i]+1;
+          }
+          i++; //BF191028.3
+        }            
+//        
+        if (prxnarro.length > 0) {
+          get_molgrps(prxnarro); // this appends the molgroups of the newly filled prxnarro[] to pmolgrp[]
+                                // (without newly parsed mol that are not associated to rxn)
+          // !!! will the newly generated molgroups have wrong rxnarro numbers in their .mf[].rx and .mt[].rx properties? test
+          i=0;
+          while (i < prxnarro.length) {
+            deep_copyRxnArrow(prxnarro,rxnarro,i,i+rxnaroffs);
+            i++;
+          }
+          // rxnarro[] now contains all reaction arrows (pre-existing and newly parsed)
+        }
+        // collect all molecules that are not associated with an arrow (pre-existing and newly parsed)
+        // and append them to the molgroups that are associated with rxn
+        i=1;
+        while (i <= nmol) { // mols are base 1
+          if (ixinmolgr_from_molnr(i,pmolgrp) < 0) {
+            pmolgrp.push(new Molgrp([i])); // pmolgrp[] is base 0
+          }
+          i++;
+        }
+        if (rxnarro.length > 0) { // rxn arrows present
+          // now determine the rxn network for all rxnarro[] and molgroups.
+          get_molgr_net(pmolgrp);
+          centerMolgrps(3*crit); //does not change rxnarro or prxnarro
+          layout_rxn();
+          for (i=0;i<rxnarro.length;i++) {
+            for (j=0;j<pmolgrp.length;j++) {
+              if (sameArrayElements(pmolgrp[j].mols,rxnarro[i].stn)) {
+                smgr=j;
+              }
+              if (sameArrayElements(pmolgrp[j].mols,rxnarro[i].etn)) {
+                emgr=j;
+              }
+            }
+            rxnco=[];
+            calcNewRxnArwCoord(rxnarro[i].stn,rxnarro[i].etn,molgrp_brects[smgr],molgrp_brects[emgr]);
+            rxnarro[i].sco.x = rxnco[0];
+            rxnarro[i].sco.y = rxnco[1];
+            rxnarro[i].eco.x = rxnco[2];
+            rxnarro[i].eco.y = rxnco[3];
+          }         
+        } // end if (rxnarro.length > 0)
+        
+        if (plpsmiles !== '') {
+          parseLonePairs(plpsmiles,natofs);
+        }
+        if (parwsmiles !== '') {
+          parseArrows(parwsmiles,natofs);
+        }      
+        if (rxnarro.length===0) { // without reactions, use tiling of mols
+          tile_trees();
+        }
+
+        center_scale_all();
+
+        if (warnAtoms.length > 0) { // SMILES parsing produced warnAtoms
+          elidup(warnAtoms);
+          drawMol(ctx,0,true);  
+          for (i=0;i<warnAtoms.length;i++) {
+            drawAtomWarning(igctx,m,warnAtoms[i]);
+          }
+          alert("WARNING:\nParsing of SMILES failed at one or more \nambiguous or inconsistent stereogenic centres!\n\nStereo up/down bonds at centers marked by red squares were replaced by normal single bonds.\n\nThe red squares disappear with the next drawing action");
+          warnAtoms=[];
+          m_smico=[];
+          kc = 0;
+          document.getElementById('shift').className = "shift";
+          document.getElementById('alt').className = "alt";
+          return;
+        }
+        // check the new molecule against the entered SMILE-code
+        getsmiles(); // smiles may contain preexisting molecules, arrows and lone pairs, msmico is vanilla SMILES
+        smiles = smiles.trim();
+        msmico = msmico.trim();
+        if (smiles.includes(msmico)) { // msmico is contained in smiles: parser worked ok.
+          // draw the molecule
+          drawMol(ctx,0,true);
+          kc = 0;
+          document.getElementById('shift').className = "shift";
+          document.getElementById('alt').className = "alt";
+          saveState();
+          resetDV();
+          m_smico=[];
+        } else if (warnAtoms.length > 0) {
+          elidup(warnAtoms);
+          drawMol(ctx,0,true);
+          for (i=0;i<warnAtoms.length;i++) {
+            drawAtomWarning(igctx,m,warnAtoms[i]);
+          }
+//           console.log("parse_m_smiles failed.\n"+msmico+"\nnot contained in result of getsmiles:\n"+smiles);
+          alert("WARNING:\nParsing of SMILES produced one or more \nambiguous or inconsistent stereogenic centres!\n\nCheck the stereo-drawing of the centers marked by red squares.\n\nThe red squares disappear with the next drawing action");
+          kc = 0;
+          document.getElementById('shift').className = "shift";
+          document.getElementById('alt').className = "alt";
+          warnAtoms=[];
+          m_smico=[];
+        } else {
+          drawMol(ctx,0,true);
+          kc = 0;
+          document.getElementById('shift').className = "shift";
+          document.getElementById('alt').className = "alt";          
+          alert("Parsing failed!\nentered SMILES:\n"+msmico+"\n"+smiles+"\nSMILES of parsed structure"); 
+//           console.log("Parsing failed!\nentered SMILES:\n"+msmico+"\n"+smiles+"\nSMILES of parsed structure"); 
+          saveState();
+          resetDV();
+          m_smico=[];
+        }  
+        kc = 0;
+        document.getElementById('shift').className = "shift";
+        document.getElementById('alt').className = "alt";
+
+  // END of parse_m_SMILES() main section
+//END mv5 PMS

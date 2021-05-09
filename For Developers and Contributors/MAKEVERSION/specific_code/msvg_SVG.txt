@@ -1,0 +1,303 @@
+//START MSVG SVG    
+  // SELECTION
+      function clearSelection_svg() {
+      let i;
+    
+      for (i=0; i < m.length; i++) {
+        m[i].s = 0;
+      }
+    } // clear selection
+
+    //bounding rectangles       
+
+      function get_mol_brects() {
+        let i=0;
+        let nm=0;
+        
+        mol_brects = [new Rect(0,0,0,0)];
+        if (m.length===1) { 
+          return; 
+        }
+        nm = getAll_t_Trees();
+        for (i=1; i<=nm;i++) {
+          mol_brects.push(getboundrect_svg(m,i,'t'));
+        }
+        return nm;
+      } // fills the array of bounding rects mol_brects[] for all molecules, returns number of molecules
+
+      function getboundrect_svg(mar,selector,tors) {
+        let i, prop, lats=0, rats=0, lmarg=0, rmarg=0, maxXix=0, minXix=0, maxX=0, maxY=0, minX=10000, minY=10000;
+      
+        if (selector > 0) { // only gather the bounarect of tree selector
+          for (i=1; i < m.length; i++) {
+            if (tors === 't') { 
+              prop = m[i].t;
+            } else {
+              prop = m[i].s;
+            }
+            if (prop === selector) {
+              if (mar[i].x > maxX) { maxX = mar[i].x; maxXix = i;}
+              if (mar[i].y > maxY) { maxY = mar[i].y;}
+              if (mar[i].x < minX) { minX = mar[i].x; minXix = i;}
+              if (mar[i].y < minY) { minY = mar[i].y;}
+            }        
+          }
+        } else { // gather bounarect aver all trees      
+          for (i=1; i < m.length; i++) {
+            if (mar[i].x > maxX) { maxX = mar[i].x; maxXix = i;}
+            if (mar[i].y > maxY) { maxY = mar[i].y;}
+            if (mar[i].x < minX) { minX = mar[i].x; minXix = i;}
+            if (mar[i].y < minY) { minY = mar[i].y;}        
+          }
+        }
+        if ((minXix > 0) && (maxXix > 0)) {
+          lats = getAtStr(mar,minXix) + getCstr(mar,minXix);
+          rats = getAtStr(mar,maxXix) + getCstr(mar,maxXix);
+        }
+        lmarg = charW*lats.length+8;
+        rmarg = charW*rats.length+2;
+        const tbounarect = new Rect(minX-lmarg, minY-3*charH/2-4, maxX-minX+lmarg+rmarg+4, maxY-minY+3*charH/2+18);
+        return tbounarect;
+      } // returns rectangle around a selected structure/substructure 
+
+  // delete Atom
+      function deleteAtom_svg(mar, bar, del,arwflag) {
+        //params: del: the index of the atom to delete in mar
+        //        arwflag:if true: delete arrows in arro[] associated with atom del
+        //                if false: do not delete arrows in arro[] associated with atom del
+        let i, k;
+        let delArw = false;
+      
+        // trivial case: only one Atom
+        if ((mar.length === 2) && (mar === m)) { 
+          mar.splice(1,1);
+          return;      
+        }
+        if (arwflag) {
+          // delete arrows involving del 
+          for (i=0; i < arro.length; i++) {
+            delArw = false;
+            if ((arro[i].st === del) || (arro[i].en === del)) {
+              delArw = true;
+            }
+            if ((arro[i].st < 0) && (Number.isInteger(arro[i].st)) && ((bar[(-1)*arro[i].st].fra === del) || (bar[(-1)*arro[i].st].toa === del))) {
+              delArw = true;
+            }
+            if ((arro[i].en < 0) && (Number.isInteger(arro[i].en)) && ((bar[(-1)*arro[i].en].fra === del) || (bar[(-1)*arro[i].en].toa === del))) {
+              delArw = true;
+            }
+            if (delArw) {
+              deleteArrow(i);
+              i--; // step back to reexamine the element that was shifted down by the deleteArrow()
+            }
+          }
+        }
+        // bonds array
+        for (i=1; i < bar.length; i++) {
+          if ((bar[i].fra === del) || (bar[i].toa === del )) { // bond to atom to be deleted
+            if (arwflag) {
+              for (k=0; k < arro.length; k++) { // delete any arrow involving bond to be deleted
+                if ((arro[k].st === (-1)*i) || (arro[k].st === (-1)*i)) {
+                  deleteArrow(k);
+                }
+              } 
+              decrBixArw(arro,i);
+            } else if ((bar===b_st) && (arro_s.length > 0))  { // deleteAtom_svg called from within stripExplH and arrows present
+              decrBixArw(arro_s,i);
+            }
+            bar.splice(i,1); // remove bond containing atom del
+            i--;  // step back to reexamine the bond that was shifted down by the splice
+          }
+        }
+        for (i=1; i < bar.length; i++) { // decrement all atom indices > del in bonds by 1 
+          if ( bar[i].fra > del ) { bar[i].fra -= 1 ;} // 
+          if ( bar[i].toa > del ) { bar[i].toa -= 1 ;} // 
+        }
+
+        // bopa arrays of all atoms
+        // first, remove del as bonding partner of all atoms
+        for ( i=1; i < mar.length ; i++) { // always leave the 0-element as dummy
+          if ( i=== del) { continue;} // skip the atom to delete
+          for (k= 0; k < mar[i].bpa.length; k++) {
+            if (mar[i].bpa[k].p === del ) { 
+              if ((mar[del].an === 1) && (mar === m)) { // an explicit H is deleted from m[], not m_s[]
+              // the second condition is necessary because deleteAtom_svg() is also used to remove all explicit H
+              // from the m_s array before SMILES generation, where we want to keep the eh property unchanged
+                mar[i].eh -= 1; // decrement the explicit H count
+              } 
+              mar[i].bpa.splice(k,1) ;
+            }  // del appears in the bpa => remove element.
+            // step back not necessary because no atom can occur in bpa twice
+          }
+        }
+        // decrement all indices in all abops if they are larger than del
+        for ( i=1; i < mar.length ; i++) {
+          for (k= 0; k < mar[i].bpa.length; k++) {
+            if ( i=== del) { continue;} // skip the atom to delete
+            if (mar[i].bpa[k].p > del ) {  mar[i].bpa[k].p -= 1 ;}  // decrement indices higher than del in the abops
+          }
+        }
+        
+        // decrement all atom indices in arrows if they are larger than del
+        if (arwflag) { // for arro[] if called outside getsmiles()
+          for (i=0; i < arro.length; i++) {
+            if (arro[i].st > del) {
+              arro[i].st -= 1;
+            }
+            if (arro[i].en > del) {
+              arro[i].en -= 1;
+            }
+          }
+        } else if ((bar===b_st) && (arro_s.length > 0)) { // for arro_s[] if called from getsmiles()
+          for (i=0; i < arro_s.length; i++) {
+            if (arro_s[i].st > del) {
+              arro_s[i].st -= 1;
+            }
+            if (arro_s[i].en > del) {
+              arro_s[i].en -= 1;
+            }
+          }
+        }        
+        // finally, remove the atom del
+        mar.splice(del,1);
+        
+        
+        function decrBixArw(arwar,dbix) {
+          let i=0;
+          for (i=0; i < arwar.length; i++) {
+            // only change true bond indexes (negative integer), not -x.5 standing for atom to which explH is bound
+            if ((arwar[i].st < 0) && (Number.isInteger(arwar[i].st)) && ((-1)*arwar[i].st > dbix)) { //BUGFIX 190412.1
+              arwar[i].st += 1;
+            }          
+            if ((arwar[i].en < 0) && (Number.isInteger(arwar[i].en)) && ((-1)*arwar[i].en > dbix)) { //BUGFIX 190412.1
+              arwar[i].en += 1;
+            }                  
+          }
+        }
+      } // delete atom, recompacting arrays and adjusting indices of remaining atoms, bonds and arrows 
+
+  // clear molecule
+      function clearMol_svg() {
+
+        // reset variables in drawCanvas() scope
+        m.length = 1; // index 0 contains a dummy atom
+        m_s.length = 1; // index 0 contains a dummy atom
+        m_s0.length = 1; // index 0 contains a dummy atom
+        m_st.length = 1; // index 0 contains a dummy atom
+        m4cc.length = 0; // index 0 contains a dummy atom
+        b.length = 1; // index 0 contains a dummy bond
+        b_s.length = 1; // index 0 contains a dummy bond
+        b_s0.length = 1; // index 0 contains a dummy bond
+        b_st.length = 1; // index 0 contains a dummy bond
+        lig.length = 1; // index 0 contains a dummy bond;
+        arro = []; //array storing the Arrow{} objects
+        arro_s = []; //shadow array of arrows for SMILES
+        rxnarro = []; // array storing Rxnarw{} objects
+        rxn_s = []; // shadow array of rxn arrows for SMILES
+
+      
+        //arrays used by functions in several sections: have to be in the drawCanvas scope
+        bridgeheads = []; // array with atom indices of bridgeheads. Filled by findBridgeheads() !!used also by stereobonds()
+        ccSense = {}; // pseudohash: key is string with atom index of central atom, value is @ or @@
+        cumulat = []; // array with the atom indices of all cumulene atoms  !! used in getsmiles() and parseSMILES()
+        ezCC = []; // array of cumulene objects containing even cumulenes !!used also by parseSMILES()
+        incoming = []; // array specifiying for each atom the "incoming" atom. index is parallel to m[]. Filled by dfsRC !!used also by flipBranch()
+        molgrp_brects = []; // the bounding rects of molgrps
+        pscCC = []; // array of potentially stereogenic cumulenes !!used also in smiles parsing
+        rcstr = {}; // hash with the atom index as key and the ring closures string as value. Filled by dfsRC() !! used also by smiles parsing
+        ringatoms = []; // array containing atom indices off all atoms in rings. Filled by findRingBonds() !!used also in smiles parsing
+        ringbonds = []; // array of indices in b-type arrays. Filled in findRingBonds(), required by isSCcandidate,!! used by several sections
+        ringclosures = []; // array of strings xx:yy with xx and yy being atom indices of atoms in ring closure !!used by several sections
+        rings = [];  // 2D array. rings[ringnumber][index in ring]. Values are the atom indices !!used by several sections
+        sectors = []; // array of Sector{} objects containing the sectors between bonds around an atom !! used in several sections
+        smilesarray = []; // array of atom indices in the order from dfsSmiles !! used in several sections
+        visnodesDFS = []; // array of the nodes visited by dfs(). Values are atom indices !!used by several sections
+        warnAtoms = []; //!!used in getsmiles and parseSMILES: the atoms that will be shown with a red square
+
+        // primitive variables
+        nmol = 0; // number of molecules (trees)
+        nRings = 0; // the number of rings. Calculated from the number of bonding partners of each atom by numRings()
+        
+        // globals required to remember things from one mouse event to the next one
+
+        // boolean variables
+        hasStereo = false;
+        nolinedash = false;  // indicator for browsers that do not support linedash
+        showatnum = false; // flag used in diagnostic
+        showsymnum = false; // flag used in diagnostic
+        
+        // types of tools and elements
+        benzene = false; // true if benzene tool is selected
+
+      } // clears the drawing area, deletes the molecules and re-initializes all global variables
+ 
+      function f1(ii) {
+        return (Math.round(10*ii)/10);
+      } // float xxx.x
+        
+  // draw Mol_svg
+      function drawMol_svg(svgW,svgH,s,ayn,smic,fail) {
+        let i, k, a1, a2, a1x, a1y, a2x, a2y, bt, cp;
+        let bondColor="black", atsymColor="black";
+      //      var atstr = "";
+  
+        if(m.length === 1) {
+          return;
+        }
+        
+
+      // svg header        
+        svg = '';
+        svg += '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\n';
+        svg += '<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">\n';
+        svg += '<svg width="'+cellW+'" height="'+cellH+'" viewBox="0 0 '+String(Math.round(svgW))+' '+String(Math.round(svgH))+'"';
+        svg += ' preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">\n';
+
+        svgwidth.push(svgW);
+  
+        
+        bondColor = (s === 1)? "magenta":"black";
+        if (b.length >= 2) {  // draw all bonds
+          cp=0;
+          for (k = 1; k < b.length; k++) {
+            a1 = b[k].fra;
+            a2 = b[k].toa;
+            a1x = m[a1].x;
+            a1y = m[a1].y;
+            a2x = m[a2].x;
+            a2y = m[a2].y;
+            bt = b[k].btyp;
+            if (bt===5) {
+              cp++;
+            }
+            drawBond_svg(a1x, a1y, a2x, a2y, bt, stdlw, bondColor,k,cp);
+          }
+        }
+
+        atsymColor = (s === 1)? "magenta":"black";
+        for (i=1; i < m.length; i++) { // draw the atom symbols  
+          drawAtomLabel_svg(i,atsymColor);
+        } // end loop over atoms
+  
+        if ((arro.length > 0) && (ayn)) {
+          for (i=0; i < arro.length; i++) {
+            drawArrow_svg(i,'red');
+          }
+        }
+        if ((rxnarro.length > 0) && (ayn)) {
+          for (i=0; i < rxnarro.length; i++) {
+            drawRxnArrow_svg(i,'black');
+          }
+        }
+//        svg += '\t<text x="10" y="15" style="fill:blue; font-family: Arial, Helvetica, sans-serif; font-size: 14px">'+name+'</text>\n'; //MOSTEST specific 
+//        svg += '\t<rect x="0" y="0" width="'+svgW+'" height="'+svgH+'" fill="none" stroke="blue" stroke-width="1"/>\n'; 
+
+        if (fail) {
+          svg += '\t<text x="'+f1(svgW-150)+'" y="'+f1(svgH-5)+'" style="fill:red; font-family: Arial, Helvetica, sans-serif; font-size: 14px">'+'Parser Failure!'+'</text>\n';
+        }
+        // close up svg       
+//        svg += '\t<rect x="0" y="0" width="'+String(Math.round(svgW))+'" height="'+String(Math.round(svgH))+'" stroke="blue" stroke-width="1" fill="none"/>\n';
+        svg += '</svg>\n';
+
+      } // draw the molecular data as structural formula in SVG format
+//END MSVG SVG 
