@@ -5,7 +5,7 @@ After download of the mosfeccs-main repository and unzip, the directory MAKEVERS
 (terminal or X11 on Mac, Linux). Google closure compiler must be installed locally on your computer.
 
 IMPORTANT Note:
-Make sure that makeversion.pl, acc.sh (the shell script needed for compilation with Google closure compiler) have executable status.
+Make sure that makeversion.pl and acc.sh (the shell script needed for compilation with Google closure compiler) have executable status.
 Edit the shell script acc.sh such that the call of the compiler contains the correct path to your closure compiler installation.
 
 Listing after download and unzip:
