@@ -1,0 +1,272 @@
+/* 
+			desktop_full_rs.css version for MOSFECCS_v6_201120
+			Style for desktop and beamers loaded when
+			MOSFECCS is called with the parameter URL.html?device=desktop
+			Needed for devices with low resolution (device width < 1390 px) 
+			such as beamers to enforce desktop version.
+ */
+	
+			body { 	
+			  overflow:auto;
+				background:#AAA;
+				color:#FFF;
+				text-align:left;
+				font-size:90%;
+				font-family:Courier, Verdana, Geneva, Arial, Helvetica, sans-serif;
+				color: black;
+				margin-left: 0px;
+				margin-right:0px;
+				margin-top: 0px;
+				padding:0px;
+				
+			}
+			
+			#container {
+			  position: absolute;
+			  top:0px;
+			  left:0px;
+			}
+			
+			canvas {	
+			  position: absolute;
+        margin-left: 0px;
+        margin-right:0px;
+        margin-top: 0px;
+        visibility: hidden;
+			}
+			
+			#smilesbox {
+				visibility: hidden;
+				position: absolute;
+				left: 132px;
+				top: 86px;
+				width: 300px;
+				background-color: #E0E0E0;
+				border-style: double;
+				border-width: 5px;
+				border-color: #AAA;
+				padding: 8px;
+			}
+
+			#smhead {
+				font-family: Sans-Serif;				
+			}
+			
+			#smilesok {
+        margin-left: 244px;
+        display: block;
+        background-color: #2283F6;
+				color: white;
+				font-size: 16px;
+				font-family: Helvetica, Arial, Sans-Serif;
+				text-decoration: none;
+				border-radius: 8px;
+				vertical-align: middle;
+				padding:4px;
+			}
+			
+			#smitxa {
+				resize: none;
+				width: 290px;
+				max-width: 290px;
+				font-family: Helvetica, Arial, Sans-Serif;
+				font-size: 10pt;
+			}
+			
+			#xbox {
+				visibility: hidden;
+				position: absolute;
+				left: 210px;
+				top: 200px;
+				width: 150px;
+				background-color: #E0E0E0;
+				border-style: double;
+				border-width: 5px;
+				border-color: #AAA;
+				padding: 8px;
+			}
+
+			#xheader {
+				font-family: Sans-Serif;				
+				font-size: 10pt;
+				text-align: middle;				
+			}
+			
+			#xok {
+        margin-left:90px;
+        display: block;
+        background-color: #2283F6;
+				color: white;
+				width: 60px;
+				height: 32px;
+				font-size: 16px;
+				font-family: Helvetica, Arial, Sans-Serif;
+				text-decoration: none;
+				border-radius: 8px;
+				vertical-align: middle;
+			}
+			
+			#xtxa {
+				resize: none;
+				width: 60px;
+				max-width: 130px;
+				margin-left: 40px;
+				font-family: Helvetica, Arial, Sans-Serif;
+				font-size: 10pt;
+			}
+
+    	#abox {
+				visibility: hidden;
+				position: absolute;
+				left: 180px;
+				top: 250px;
+				width: 200px;
+				background-color: #E0E0E0;
+				border-style: double;
+				border-width: 5px;
+				border-color: #AAA;
+				padding: 8px;
+			}
+
+			#aheader {
+				font-family: Sans-Serif;				
+				font-size: 10pt;
+				text-align: middle;				
+			}
+
+			#atxa {
+				resize: none;
+				width: 120px;
+				max-width: 130px;
+				margin-left: 20px;
+				font-family: Helvetica, Arial, Sans-Serif;
+				font-size: 10pt;
+			}
+			#btxa {
+				resize: none;
+				width: 120px;
+				max-width: 130px;
+				margin-left: 20px;
+				font-family: Helvetica, Arial, Sans-Serif;
+				font-size: 10pt;
+			}
+			#aok {
+        margin-left:70px;
+        display: block;
+        background-color: #2283F6;
+				color: white;
+				width: 60px;
+				height: 32px;
+				font-size: 16px;
+				font-family: Helvetica, Arial, Sans-Serif;
+				text-decoration: none;
+				border-radius: 8px;
+				vertical-align: middle;
+			}
+			
+			#smixbox {
+				visibility: hidden;
+				position: absolute;
+				left: 50px;
+				top: 200px;
+				width: 500px;
+				background-color: #E0E0E0;
+				border-style: double;
+				border-width: 5px;
+				border-color: #AAA;
+				padding: 8px;
+			}
+
+			#smixheader {
+				font-family: Sans-Serif;				
+				font-size: 10pt;
+				text-align: middle;				
+			}
+			
+			#smixok {
+			    background-color: #2283F6;
+			    color: white;
+			}
+			
+			#smixtxa {
+				resize: none;
+				width: 460px;
+				max-width: 460px;
+				margin-left: 10px;
+				font-family: Helvetica, Arial, Sans-Serif;
+				font-size: 10pt;
+			}
+						
+			.smixbutrow {
+				margin-left: 290px;
+			}
+			
+			.smixbut {
+			  display: inline-block;
+			  float:left;
+			  margin:6px;
+        background-color: #E5E8E8;
+      }
+      
+      #buttonregion {
+        position: absolute;
+        text-align: center;
+        width: 250px;
+        margin-top: 10px;
+      }
+			
+			.butrow {
+				display: inline;
+				text-align: center;
+				margin: -webkit-auto;
+			}
+			
+			.but {
+			  display: inline-block;
+			  float:left;
+			  margin:6px;
+        background-color: #E5E8E8;
+        font-size: 12pt;
+		    height: 30px;
+		  }
+			
+      .but:hover {
+        background-color: #CCD1D1 ;			  
+      }
+
+      .buthide {
+			  display: inline-block;
+			  float:left;
+			  margin:6px;
+        background-color: #E5E8E8;
+        visibility:hidden;
+      }	
+      		
+			.asrright {
+				visibility: visible;
+				position: absolute;
+				top: 650px; 
+				right: 586px; 
+				width: 130px; 
+				height: 46px;
+				padding: 5px;
+				padding-top: 2px;
+				display: inline;
+			}
+			
+			.shift {
+				visibility: hidden;
+			}
+			
+			.alt {
+				visibility: hidden;
+			}
+			
+			.selected {
+        -webkit-filter: invert(100%);
+           -moz-filter: invert(100%);
+            filter: invert(100%);
+      }
+
+
+	

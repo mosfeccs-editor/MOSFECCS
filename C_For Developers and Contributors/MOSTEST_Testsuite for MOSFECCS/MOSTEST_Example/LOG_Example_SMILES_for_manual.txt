@@ -1,0 +1,12 @@
+LOGFILE for run of /Users/bj/MOSFECCS/MOSTEST/MOSTEST_210506_manual/mostest_210506.js with file: Example_SMILES_for_manual.txt
+run by bj on node at 09.05.2021 07:33:31 GMT+0200 (Central European Summer Time)
+=========================================
+BJ_1_1 OK
+BJ_1_3 OK
+BJ_1_4 OK
+BJ_1_5 Parser ERROR for SMILES: CCC&CCC
+	ERR: invalidSymbol in SMILES:"&"
+BJ_1_6 OK
+BJ_1_8 OK
+BJ_1_9 parsing failed for SMILES: COCCSCNC checkSMILES: CNCSCCOC
+BJ_13_10 Parsing led to warnAtoms! SMILES: OC[C@@]1(O)[C@@H]2O[C@@]3([O-])O[C@@H]1[C@@H]4[C@@H](O)NC(=[NH2+])N[C@]4([C@@H]2O)[C@H]3O
