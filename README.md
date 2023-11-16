@@ -19,7 +19,7 @@
   <p>As of February 2021, a total of ca. 1500 students in 6 first-year examinations have already used MOSFECCS in the exam.</p>
 
 <p><strong>MOSFECCS has been shown to work with the following operation systems and browsers:</strong></p>
-  <p><em>Mac OS 10.15.7:</em> Firefox 87, Chrome 90.0, Safari 14.0.3, SEB 2.3.2</p>
+  <p><em>Mac OS 13.6.1:</em> Firefox 119.0.1, Chrome 119.0.6045.159, Safari 17.1, SEB 3.3</p>
   <p><em>Windows 10:</em> Firefox 88.0, Chrome 90.0, Edge 90.0.818, SEB 2.3.2</p>
   <p><em>iOS 14.4.2:</em> Firefox, Chrome, Safari, ETH-Moodle.app</p>
   <p><em>Android:</em> Firefox, Chrome, Samsung Internet, ETH-Moodle.app</p>
