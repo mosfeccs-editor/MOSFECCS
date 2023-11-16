@@ -20,7 +20,7 @@
 
 <p><strong>MOSFECCS has been shown to work with the following operation systems and browsers:</strong></p>
   <p><em>Mac OS 13.6.1:</em> Firefox 119.0.1, Chrome 119.0.6045.159, Safari 17.1, SEB 3.3</p>
-  <p><em>Windows 10:</em> Firefox 88.0, Chrome 90.0, Edge 90.0.818, SEB 2.3.2</p>
+  <p><em>Windows 10:</em> Firefox 118.0.1, Chrome 119.0, Edge 119.0, SEB 3.5</p>
   <p><em>iOS 14.4.2:</em> Firefox, Chrome, Safari, ETH-Moodle.app</p>
   <p><em>Android:</em> Firefox, Chrome, Samsung Internet, ETH-Moodle.app</p>
 
