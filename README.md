@@ -2,7 +2,7 @@
 
 <p><strong>MO</strong>lecular <strong>S</strong>tructural <strong>F</strong>ormula <strong>E</strong>ditor <strong>C</strong>alculatig <strong>C</strong>anonical <strong>S</strong>MILES</p>
 
-><img src="mosfeccs.png" > 
+><img src="mosfeccs_231115.png" > 
 
 <h2>Purpose and Current Use of MOSFECCS</h2>
 
