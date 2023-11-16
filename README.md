@@ -16,7 +16,7 @@
   <p><em>MOSFECCS was developed with the didactics of basic organic chemistry in mind</em>. In contrast to most molecular editors that were developed as tools to enter chemical structures for database searches, MOSFECCS does not correct user errors (violations of the laws and conventions of structural theory) and allows to draw "wrong" structures.</p>
   <p>MOSFECCS was coded by Bernhard Jaun, Prof. (emeritus since 2013) at the Laboratory of Organic Chemistry ETH-Zurich. So far (2015-2021), it has been used in the context of the courses Organic Chemistry I&amp;II for students of biology, pharmaceutical sciences, health sciences&amp;technology (Prof. Carlo Thilgen) at ETHZ. This course offers the students a comprehensive set of on-line trainings (quizzes, total of ca. 1000 questions) in the e-learning environment Moodle. About half of the questions require the students to draw molecular structures in an editor, convert the structure into alphanumeric code (mosfeccs-SMILES) and enter the result as answer into the quiz. The correctness of the answer is then checked on the server-side of Moodle in the same way as text or numeric answers.</p>
   <p>Since 2018, the first-year examinations in Organic Chemistry I&amp;II for BIOL./PHARM./HST (Prof. Thilgen) at ETH are carried out on-line via the Safe Exam Browser (SEB), the Moodle-exam server of ETH, and MOSFECCS as the editor for structural formulae.</p>
-  <p>As of February 2021, a total of ca. 1500 students in 6 first-year examinations have already used MOSFECCS in the exam.</p>
+  <p>As of November 2023, more than 2500 students in 11 first-year examinations have already used MOSFECCS in the exam.</p>
 
 <p><strong>MOSFECCS has been shown to work with the following operation systems and browsers:</strong></p>
   <p><em>Mac OS 13.6.1:</em> Firefox 119.0.1, Chrome 119.0.6045.159, Safari 17.1, SEB 3.3</p>
@@ -31,7 +31,7 @@
 
 The file "Example_Moodle_Quizz_with_MOSFECCS.xml" can be imported into a Moodle course and contains one quiz with 10 questions that illustrate the use of MOSFECCS and MOSFECCS-SMILES in different Moodle question types.
 
-MOSFECCS can also be installed locally on a computer: download "MOSFECCS_v6_local_install_on computer.zip" to your computer, unzip and open the file MOSFECCS_v6_210506cc.html with your browser.
+MOSFECCS can also be installed locally on a computer: download "MOSFECCS_v6_local_install_on computer.zip" to your computer, unzip and open the file MOSFECCS_v6_231115cc.html with your browser.
 
 <h3>B. Documentation</h3>
 
@@ -43,7 +43,7 @@ MOSFECCS-SMILES_technical_Manual: describes the conventions and procedures used 
 <p>This section contains the source code of MOSFECCS and additional tools for development
  and testing.</p>
  
-<p><strong>MAKEVERSION:</strong> The perl script makeversion.pl takes the development version of MOSFECCS source code:<br 7> MOSFECCS_v6_SVG_DEV_210506-1.html and generates the production versions: <br /> MOSFECCS_v6_210506.html (source)<br /> MOSFECCS_v6_210506cc.html (compiled)<br />as well as the testing application mostest_210506.js (running under nodeJS).<br />For a detailed description of making the production versions from the development version <em>see </em>makeversion_Manual.pdf </p>
+<p><strong>MAKEVERSION:</strong> The perl script makeversion.pl takes the development version of MOSFECCS source code:<br 7> MOSFECCS_v6_SVG_231115-1.html and generates the production versions: <br /> MOSFECCS_v6_231115.html (source)<br /> MOSFECCS_v6_231115cc.html (compiled)<br />as well as the testing application mostest_231115.js (running under nodeJS).<br />For a detailed description of making the production versions from the development version <em>see </em>makeversion_Manual.pdf </p>
 
 <p><strong>MOSTEST:</strong> mostest.js runs under nodeJS and accepts a file with SMILES-codes (one per line) as input. The SMILES-generator and SMILES-parser of mostest.js are identical to those of MOSFECSS since mostest.js is made by makeversion.pl from MOSFECCS. Each SMILES in the input file is converted into a structure (svg-graphic) by the parser and then the SMILES-code is calculated for the structure. mostest.js compares the input and output SMILES-codes and reports if they are not identical or if an error occurs. </p>
 <p>AllTestMols.txt is a testfile with ca 1300 molecules (SMILES-codes) that can be used as input for mostest.js</p>
