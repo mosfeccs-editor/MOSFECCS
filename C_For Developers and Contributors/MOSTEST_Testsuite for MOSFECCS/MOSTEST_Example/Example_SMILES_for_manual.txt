@@ -1,0 +1,10 @@
+Mol	SMILES
+# example input file for mostest.js
+BJ_1_1	CCCCCCC
+BJ_1_3	CCCCCCCCCCCC
+BJ_1_4	C
+BJ_1_5	CCC&CCC
+BJ_1_6	CC([SeH])C(N)C(C)Br
+BJ_1_8	CNCSCCOC
+BJ_1_9	COCCSCNC
+BJ_13_10	OC[C@@]1(O)[C@@H]2O[C@@]3([O-])O[C@@H]1[C@@H]4[C@@H](O)NC(=[NH2+])N[C@]4([C@@H]2O)[C@H]3O

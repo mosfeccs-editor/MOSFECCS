@@ -1,0 +1,48 @@
+Installing MAKEVERSION
+======================
+
+After download of the mosfeccs-main repository and unzip, the directory MAKEVERSION contains the files necessary to run makeversion.pl from a Unix-type shell
+(terminal or X11 on Mac, Linux). Google closure compiler must be installed locally on your computer.
+
+IMPORTANT Note:
+Make sure that makeversion.pl and acc.sh (the shell script needed for compilation with Google closure compiler) have executable status.
+Edit the shell script acc.sh such that the call of the compiler contains the correct path to your closure compiler installation.
+
+Listing after download and unzip:
+bj@alanin MAKEVERSION % ls -Rl
+total 2544
+-rw-r--r--@ 1 bj  staff  1032114 Nov 15 15:02 MOSFECCS_v6_SVG_231115-1.html
+-rw-r--r--@ 1 bj  staff     1984 May 14  2021 Makeversion_INSTALL.txt
+-rw-r--r--@ 1 bj  staff      515 May 14  2021 acc.sh
+-rw-r--r--@ 1 bj  staff    10398 Nov 17 16:27 makeversion.pl
+-rw-r--r--@ 1 bj  staff   247477 Nov 17 17:04 makeversion_Manual.pdf
+drwxr-xr-x  8 bj  staff      256 Nov 17 16:49 specific_code
+
+./specific_code:
+total 168
+-rw-r--r--@ 1 bj  staff   6216 Jan 16  2023 mosfeccs_frame.txt
+-rw-r--r--@ 1 bj  staff  21189 Feb 13  2022 mosfeccs_pms.txt
+-rw-r--r--@ 1 bj  staff   6654 Jan 10  2023 mostest_SVG.txt
+-rw-r--r--@ 1 bj  staff  20731 Jan 13  2023 mostest_frame.txt
+-rw-r--r--@ 1 bj  staff  18732 Feb 13  2022 mostest_pms.txt
+bj@alanin MAKEVERSION % 
+
+bj@alanin MAKEVERSION % chmod +x makeversion.pl acc.sh
+
+bj@alanin MAKEVERSION % ls -Rl
+total 2544
+-rw-r--r--@ 1 bj  staff  1032114 Nov 15 15:02 MOSFECCS_v6_SVG_231115-1.html
+-rw-r--r--@ 1 bj  staff     1984 May 14  2021 Makeversion_INSTALL.txt
+-rwxr-xr-x@ 1 bj  staff      515 May 14  2021 acc.sh
+-rwxr-xr-x@ 1 bj  staff    10398 Nov 17 16:27 makeversion.pl
+-rw-r--r--@ 1 bj  staff   247477 Nov 17 17:04 makeversion_Manual.pdf
+drwxr-xr-x  8 bj  staff      256 Nov 17 16:49 specific_code
+
+./specific_code:
+total 168
+-rw-r--r--@ 1 bj  staff   6216 Jan 16  2023 mosfeccs_frame.txt
+-rw-r--r--@ 1 bj  staff  21189 Feb 13  2022 mosfeccs_pms.txt
+-rw-r--r--@ 1 bj  staff   6654 Jan 10  2023 mostest_SVG.txt
+-rw-r--r--@ 1 bj  staff  20731 Jan 13  2023 mostest_frame.txt
+-rw-r--r--@ 1 bj  staff  18732 Feb 13  2022 mostest_pms.txt
+bj@alanin MAKEVERSION % 
