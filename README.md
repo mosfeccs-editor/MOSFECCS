@@ -2,7 +2,7 @@
 
 <p><strong>MO</strong>lecular <strong>S</strong>tructural <strong>F</strong>ormula <strong>E</strong>ditor <strong>C</strong>alculatig <strong>C</strong>anonical <strong>S</strong>MILES</p>
 
-><img src="mosfeccs_231115.png" > 
+><img src="mosfeccs_240305.png" > 
 
 <h2>Purpose and Current Use of MOSFECCS</h2>
 
@@ -21,7 +21,7 @@
 <p><strong>MOSFECCS has been shown to work with the following operation systems and browsers:</strong></p>
   <p><em>Mac OS 13.6.1:</em> Firefox 119.0.1, Chrome 119.0.6045.159, Safari 17.1, SEB 3.3</p>
   <p><em>Windows 10:</em> Firefox 118.0.1, Chrome 119.0, Edge 119.0, SEB 3.5</p>
-  <p><em>iOS 16.6.1:</em> Firefox, Chrome, Safari, ETH-Moodle.app</p>
+  <p><em>iOS 14.4.2:</em> Firefox, Chrome, Safari, ETH-Moodle.app</p>
   <p><em>Android:</em> Firefox, Chrome, Samsung Internet, ETH-Moodle.app</p>
 
 <h2>Content of the Repository and Installation</h2>
@@ -43,7 +43,7 @@ MOSFECCS-SMILES_technical_Manual: describes the conventions and procedures used 
 <p>This section contains the source code of MOSFECCS and additional tools for development
  and testing.</p>
  
-<p><strong>MAKEVERSION:</strong> The perl script makeversion.pl takes the development version of MOSFECCS source code:<br 7> MOSFECCS_v6_SVG_231115-1.html and generates the production versions: <br /> MOSFECCS_v6_231115.html (source)<br /> MOSFECCS_v6_231115cc.html (compiled)<br />as well as the testing application mostest_231115.js (running under nodeJS).<br />For a detailed description of making the production versions from the development version <em>see </em>makeversion_Manual.pdf </p>
+<p><strong>MAKEVERSION:</strong> The perl script makeversion.pl takes the development version of MOSFECCS source code:<br 7> MOSFECCS_v6_SVG_240305-1.html and generates the production versions: <br /> MOSFECCS_v6_240305.html (source)<br /> MOSFECCS_v6_240305cc.html (compiled)<br />as well as the testing application mostest_231115.js (running under nodeJS).<br />For a detailed description of making the production versions from the development version <em>see </em>makeversion_Manual.pdf </p>
 
 <p><strong>MOSTEST:</strong> mostest.js runs under nodeJS and accepts a file with SMILES-codes (one per line) as input. The SMILES-generator and SMILES-parser of mostest.js are identical to those of MOSFECSS since mostest.js is made by makeversion.pl from MOSFECCS. Each SMILES in the input file is converted into a structure (svg-graphic) by the parser and then the SMILES-code is calculated for the structure. mostest.js compares the input and output SMILES-codes and reports if they are not identical or if an error occurs. </p>
 <p>AllTestMols.txt is a testfile with ca 1600 molecules (SMILES-codes) that can be used as input for mostest.js</p>
