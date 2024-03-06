@@ -1,13 +1,11 @@
-SUMMARY for run of /Users/bj/MOSFECCS/MOSTEST/MOSTEST_210506_manual/mostest_210506.js with file Example_SMILES_for_manual.txt
+SUMMARY for run of /Users/bj/Desktop/MOSFECCS/GITHUB/MOSTEST_Testsuite for MOSFECCS/MOSTEST_Example/mostest_240305.js with file Example_SMILES_for_manual.txt
 Comments:
 # example input file for mostest.js
 
-5 of a total of 8 SMILES passed the test.
+6 of a total of 8 SMILES passed the test.
 
 PARSER ERRORS:1
 BJ_1_5: CCC&CCC Error:invalidSymbol in SMILES:"&"
-ATOM WARNINGS:1
-BJ_13_10: OC[C@@]1(O)[C@@H]2O[C@@]3([O-])O[C@@H]1[C@@H]4[C@@H](O)NC(=[NH2+])N[C@]4([C@@H]2O)[C@H]3O
 
 PARSER FAILURES:1
 
