@@ -1,0 +1,12 @@
+LOGFILE for run of /Users/bj/MOSFECCS/MAKEVERSION_RUNS/MAKEVERSION_240311-2_GITHUB/MOSTEST_240311-2_GITHUB/mostest_240311-2.js with file: Example_SMILES_for_manual.txt
+run by bj on node at 13.03.2024 11:38:29 GMT+0100 (Central European Standard Time)
+=========================================
+BJ_1_1 OK
+BJ_1_3 OK
+BJ_1_4 OK
+BJ_1_5 Parser ERROR for SMILES: CCC&CCC
+	ERR: invalidSymbol in SMILES:"&"
+BJ_1_6 OK
+BJ_1_8 OK
+BJ_1_9 parsing failed for SMILES: COCCSCNC checkSMILES: CNCSCCOC
+BJ_13_10 OK
